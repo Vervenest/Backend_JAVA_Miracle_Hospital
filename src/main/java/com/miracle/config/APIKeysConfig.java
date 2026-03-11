@@ -20,42 +20,43 @@ import org.springframework.stereotype.Component;
 public class APIKeysConfig {
 
     // ========== WHATSAPP / GUPSHUP API ==========
-    @Value("${whatsapp.gupshup.api-key:rwkpynmwwibszkluplje9cyghf3c1hrd}")
+    @Value("${whatsapp.gupshup.api-key}")
     private String gupshupApiKey;
 
-    @Value("${whatsapp.gupshup.template-id:d6e10d18-c3ac-46b9-9495-52ed3f44d42a}")
+    @Value("${whatsapp.gupshup.template-id}")
     private String gupshupTemplateId;
 
-    @Value("${whatsapp.gupshup.source-number:919380012244}")
+    @Value("${whatsapp.gupshup.source-number}")
     private String gupshupSourceNumber;
 
-    @Value("${whatsapp.gupshup.api-url:https://api.gupshup.io/sm/api/v3/app/messages/}")
+    @Value("${whatsapp.gupshup.api-url}")
     private String gupshupApiUrl;
 
     // ========== SMS / SMS HORIZON API ==========
-    @Value("${sms.horizon.user:chandru5452}")
+    @Value("${sms.horizon.user}")
     private String smsHorizonUser;
 
-    @Value("${sms.horizon.api-key:LBGDKVHvKj2YnRa9mypF}")
+    @Value("${sms.horizon.api-key}")
     private String smsHorizonApiKey;
 
-    @Value("${sms.horizon.sender-id:VIVRTA}")
+    @Value("${sms.horizon.sender-id}")
+
     private String smsHorizonSenderId;
 
-    @Value("${sms.horizon.template-id:1307162865820438610}")
+    @Value("${sms.horizon.template-id}")
     private String smsHorizonDefaultTemplateId;
 
-    @Value("${sms.horizon.template-id-alt:1307161760591340283}")
+    @Value("${sms.horizon.template-id-alt}")
     private String smsHorizonAlternateTemplateId;
 
-    @Value("${sms.horizon.api-url:https://smshorizon.co.in/api/sendsms.php}")
+    @Value("${sms.horizon.api-url}")
     private String smsHorizonApiUrl;
 
     // ========== WHATSAPP / CLOUD WHATSAPP API ==========
-    @Value("${whatsapp.cloud.api-key:3952d97006724c749dac3162d8036738}")
+    @Value("${whatsapp.cloud.api-key}")
     private String cloudWhatsappApiKey;
 
-    @Value("${whatsapp.cloud.api-url:https://web.cloudwhatsapp.com/wapp/api/send}")
+    @Value("${whatsapp.cloud.api-url}")
     private String cloudWhatsappApiUrl;
 
     // ========== FIREBASE / FCM ==========

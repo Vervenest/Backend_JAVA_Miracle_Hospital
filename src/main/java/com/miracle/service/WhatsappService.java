@@ -12,14 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-/**
- * WhatsappService - Handles WhatsApp message sending via Gupshup API
- * 
- * API Credentials:
- * - API Key: rwkpynmwwibszkluplje9cyghf3c1hrd
- * - Template ID: d6e10d18-c3ac-46b9-9495-52ed3f44d42a
- * - Source Number: 919380012244
- */
+
 @Service
 @Slf4j
 public class WhatsappService {
@@ -27,18 +20,17 @@ public class WhatsappService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @Value("${whatsapp.gupshup.api-key:rwkpynmwwibszkluplje9cyghf3c1hrd}")
+    @Value("${whatsapp.gupshup.api-key}")
     private String gupshupApiKey;
 
-    @Value("${whatsapp.gupshup.template-id:d6e10d18-c3ac-46b9-9495-52ed3f44d42a}")
-    private String templateId;
+   @Value("${whatsapp.gupshup.template-id}")
+   private String templateId;
 
-    @Value("${whatsapp.gupshup.source-number:919380012244}")
-    private String sourceNumber;
+  @Value("${whatsapp.gupshup.source-number}")
+  private String sourceNumber;
 
-    @Value("${whatsapp.gupshup.api-url:https://api.gupshup.io/sm/api/v3/app/messages/}")
-    private String gupshupApiUrl;
-
+  @Value("${whatsapp.gupshup.api-url}")
+  private String gupshupApiUrl;
     /**
      * Send OTP via WhatsApp using Gupshup API
      * 

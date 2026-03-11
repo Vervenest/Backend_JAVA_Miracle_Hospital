@@ -10,36 +10,27 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-/**
- * SMSService - Handles SMS sending via SMS Horizon API
- * 
- * API Credentials:
- * - SMS User: chandru5452
- * - API Key: LBGDKVHvKj2YnRa9mypF
- * - Sender ID: VIVRTA
- * - Template IDs: 1307161760591340283 (default), 1307162865820438610 (alternative)
- * - API URL: https://smshorizon.co.in/api/sendsms.php
- */
+
 @Service
 @Slf4j
 public class SMSService {
 
-    @Value("${sms.horizon.user:chandru5452}")
+    @Value("${sms.horizon.user}")
     private String smsUser;
 
-    @Value("${sms.horizon.api-key:LBGDKVHvKj2YnRa9mypF}")
+    @Value("${sms.horizon.api-key}")
     private String smsApiKey;
 
     @Value("${sms.horizon.sender-id:VIVRTA}")
     private String smsSenderId;
 
-    @Value("${sms.horizon.template-id:1307162865820438610}")
+    @Value("${sms.horizon.template-id}")
     private String defaultTemplateId;
 
-    @Value("${sms.horizon.template-id-alt:1307161760591340283}")
+    @Value("${sms.horizon.template-id-alt}")
     private String alternateTemplateId;
 
-    @Value("${sms.horizon.api-url:https://smshorizon.co.in/api/sendsms.php}")
+    @Value("${sms.horizon.api-url}")
     private String smsHorizonApiUrl;
 
     /**

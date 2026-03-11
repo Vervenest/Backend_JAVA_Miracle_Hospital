@@ -58,9 +58,9 @@ jwt:
 whatsapp:
   gupshup:
     api-key: ${GUPSHUP_API_KEY}
-    template-id: d6e10d18-c3ac-46b9-9495-52ed3f44d42a
-    source-number: 919380012244
-    api-url: https://api.gupshup.io/sm/api/v3/app/messages/
+    template-id:  ${WHATSAPP_TEMPLATE_ID}
+    source-number: ${WHATSAPP_SOURCE_NUMBER}
+    api-url:  ${WHATSAPP_API_URL}
   cloud:
     api-key:  ${CLOUD_WA_API_KEY}
     api-url: https://web.cloudwhatsapp.com/wapp/api/send
@@ -70,10 +70,10 @@ sms:
   horizon:
     user: ${SMS_USER}
     api-key: ${SMS_API_KEY}
-    sender-id: VIVRTA
-    template-id: 1307162865820438610
-    template-id-alt: 1307161760591340283
-    api-url: https://smshorizon.co.in/api/sendsms.php
+    sender-id: ${SMS_SENDER_ID}
+    template-id: ${SMS_TEMPLATE_ID}
+    template-id-alt: ${SMS_TEMPLATE_ID_ALT}
+    api-url: ${SMS_API_URL}
 
 # App config
 app:
