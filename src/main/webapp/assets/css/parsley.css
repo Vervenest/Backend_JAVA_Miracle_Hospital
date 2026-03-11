@@ -1,0 +1,101 @@
+/* ###### 4.6 Parsley ###### */
+input.parsley-error,
+input.parsley-error:focus,
+textarea.parsley-error,
+textarea.parsley-error:focus {
+    box-shadow: none !important;
+    border-color: #dc3545;
+}
+
+input.parsley-success,
+input.parsley-success:focus,
+textarea.parsley-success,
+textarea.parsley-success:focus {
+    box-shadow: none !important;
+    border-color: #0c8842;
+}
+
+.parsley-checkbox.parsley-error,
+.parsley-checkbox.parsley-success {
+    display: inline-block;
+    padding: 10px;
+    border-radius: 0.25rem;
+}
+
+.parsley-checkbox.parsley-error {
+    border: 1px solid #dc3545;
+}
+
+.parsley-checkbox.parsley-success {
+    border: 1px solid #0c8842;
+}
+
+.form-select.parsley-error,
+.form-select.parsley-success {
+    box-shadow: none !important;
+}
+
+.form-select.parsley-error {
+    border-color: #dc3545;
+}
+
+.form-select.parsley-success {
+    border-color: #0c8842;
+}
+
+.parsley-errors-list {
+    color: #dc3545;
+    list-style: none;
+    font-size: 12px;
+    padding: 0;
+    margin-bottom: 0;
+}
+
+.parsley-errors-list li {
+    margin: 5px 0 0;
+}
+
+/***** CUSTOM STYLED ERROR MESSAGE *****/
+.parsley-style-1 .parsley-input.parsley-error .form-control {
+    background-color: #fef9f9;
+    border-color: #dc3545;
+    border-bottom-width: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.parsley-style-1 .parsley-input.parsley-success .form-control {
+    border-color: #0c8842;
+}
+
+.parsley-style-1 .parsley-checkbox.parsley-error {
+    padding-bottom: 35px;
+    border: 1px solid #dc3545;
+    background-color: #fef9f9;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+.parsley-style-1 .parsley-checkbox .parsley-errors-list.filled {
+    border-bottom-right-radius: 1px;
+    border-bottom-left-radius: 1px;
+}
+
+.parsley-style-1 .form-select.parsley-error {
+    border-bottom-width: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.parsley-style-1 .parsley-errors-list.filled {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 3px 10px;
+    font-size: 11px;
+    border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+}
+
+.parsley-style-1 .parsley-errors-list.filled li:first-child {
+    margin-top: 0;
+}

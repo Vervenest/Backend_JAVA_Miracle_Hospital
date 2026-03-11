@@ -1,0 +1,23 @@
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
+
+
+An uncaught Exception was encountered
+
+Type:        
+Message:     
+Filename:    
+Line Number: 
+
+
+
+Backtrace:
+
+
+	File: 
+	Line: 
+	Function: 
+
+
+
+
+

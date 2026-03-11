@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Miracle Hospital - Frontend</title>
+  <style>
+    body { font-family: system-ui, Segoe UI, Roboto, Arial; margin: 24px; background: #f5f5f5; }
+    .container { max-width: 1000px; margin: 0 auto; }
+    h1 { color: #001a4d; text-align: center; }
+    .tabs { display: flex; gap: 10px; margin-bottom: 30px; border-bottom: 2px solid #ddd; }
+    .tab-btn { 
+      padding: 10px 20px; 
+      background: #e0e0e0; 
+      border: none; 
+      cursor: pointer; 
+      font-size: 14px; 
+      font-weight: 500;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s;
+    }
+    .tab-btn.active { 
+      background: white; 
+      border-bottom-color: #001a4d; 
+      color: #001a4d; 
+    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    section { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    label, input { display: block; margin: 8px 0; }
+    input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+    button { padding: 10px 16px; background: #001a4d; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    button:hover { background: #003d99; }
+    pre { background: #f5f5f5; padding: 12px; border-radius: 4px; overflow-x: auto; }
+    .admin-link { text-align: center; margin-top: 20px; }
+    .admin-link a { color: #001a4d; text-decoration: none; }
+    .admin-link a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🏥 Miracle Hospital</h1>
+    
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('patient')">👤 Patient Login</button>
+      <button class="tab-btn" onclick="switchTab('admin')">🔐 Admin Portal</button>
+    </div>
+
+    <!-- PATIENT TAB -->
+    <div id="patient" class="tab-content active">
+      <section>
+        <h2>Patient Login (Request OTP)</h2>
+        <label for="mobile">Mobile Number</label>
+        <input id="mobile" placeholder="9133302595" />
+        <button id="send">Send OTP</button>
+        <pre id="output"></pre>
+      </section>
+    </div>
+
+    <!-- ADMIN TAB -->
+    <div id="admin" class="tab-content">
+      <section>
+        <h2>Admin Portal</h2>
+        <p style="color: #666; margin: 15px 0;">
+          The admin interface is available on the JSP backend. Click the button below to access it:
+        </p>
+        <button onclick="window.location.href='/admin/login'" style="margin-right: 10px;">
+          Open Admin Login
+        </button>
+        <button onclick="window.location.href='/admin/dashboard'" style="background: #28a745;">
+          Admin Dashboard
+        </button>
+        <p style="font-size: 12px; color: #999; margin-top: 20px;">
+          Note: Admin interface requires authorized credentials
+        </p>
+      </section>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+  <script>
+    function switchTab(tabName) {
+      // Hide all tabs
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      
+      // Show selected tab
+      document.getElementById(tabName).classList.add('active');
+      event.target.classList.add('active');
+    }
+  </script>
+</body>
+</html>
