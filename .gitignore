@@ -60,8 +60,3 @@ yarn-error.log
 .LSOverride
 Thumbs.db
 
-
-firebase-credentials.json
-application-dev.yml
-application-prod.yml
-application-test.yml

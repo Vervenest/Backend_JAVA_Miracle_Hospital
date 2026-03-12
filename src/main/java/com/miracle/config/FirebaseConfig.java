@@ -23,9 +23,13 @@ public class FirebaseConfig {
 
     @Bean
     public FirebaseMessaging firebaseMessaging() throws IOException {
+        if (projectId == null || projectId.isEmpty()) {
+            log.warn("Firebase project ID not configured - Firebase push notifications disabled");
+            return null;
+        }
         if (FirebaseApp.getApps().isEmpty()) {
             ClassPathResource serviceAccount = new ClassPathResource("firebase-credentials.json");
-            
+
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(
                             serviceAccount.getInputStream()))
@@ -33,7 +37,7 @@ public class FirebaseConfig {
                     .build();
 
             FirebaseApp.initializeApp(options);
-            log.info("Firebase initialized successfully");
+            log.info("Firebase initialized successfully for project: {}", projectId);
         }
 
         return FirebaseMessaging.getInstance();

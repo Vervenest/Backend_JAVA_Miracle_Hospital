@@ -5,7 +5,7 @@ spring:
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/miracledb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
     username: ${SPRING_DATASOURCE_USERNAME:root}
-    password: ${SPRING_DATASOURCE_PASSWORD:${DB_PASSWORD}}
+    password: ${SPRING_DATASOURCE_PASSWORD:${DB_PASSWORD:}}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -15,14 +15,14 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
         show_sql: false
         format_sql: true
     show-sql: false
 
   mvc:
     view:
-      prefix: /META-INF/resources/WEB-INF/views/
+      prefix: /WEB-INF/views/
       suffix: .jsp
 
   servlet:
@@ -32,17 +32,17 @@ spring:
 
   web:
     resources:
-      static-locations: 
+      static-locations:
         - classpath:/META-INF/resources/
         - classpath:/static/
 
 server:
-   port: ${PORT:8080}
+  port: ${PORT:8080}
 
 # Firebase Configuration
 firebase:
   credentials-path: classpath:firebase-credentials.json
-  project-id: ${FIREBASE_PROJECT_ID}
+  project-id: ${FIREBASE_PROJECT_ID:}
   doctor:
     api-key: ${FIREBASE_DOCTOR_API_KEY:}
   patient:
@@ -53,29 +53,29 @@ firebase:
 
 # JWT Configuration
 jwt:
-  secret: ${JWT_SECRET}
+  secret: ${JWT_SECRET:mySecretKeyForJwtTokenSigningPurpose1234567890ABCDEF}
   expiration: 86400000
 
 # WhatsApp / Gupshup
 whatsapp:
   gupshup:
-    api-key: ${GUPSHUP_API_KEY}
-    template-id:  ${WHATSAPP_TEMPLATE_ID}
-    source-number: ${WHATSAPP_SOURCE_NUMBER}
-    api-url:  ${WHATSAPP_API_URL}
+    api-key: ${GUPSHUP_API_KEY:}
+    template-id: ${WHATSAPP_TEMPLATE_ID:}
+    source-number: ${WHATSAPP_SOURCE_NUMBER:}
+    api-url: ${WHATSAPP_API_URL:}
   cloud:
-    api-key:  ${CLOUD_WA_API_KEY}
-    api-url: https://web.cloudwhatsapp.com/wapp/api/send
+    api-key: ${CLOUD_WA_API_KEY:}
+    api-url: ${CLOUD_WA_API_URL:https://web.cloudwhatsapp.com/wapp/api/send}
 
 # SMS / SMS Horizon
 sms:
   horizon:
-    user: ${SMS_USER}
-    api-key: ${SMS_API_KEY}
-    sender-id: ${SMS_SENDER_ID}
-    template-id: ${SMS_TEMPLATE_ID}
-    template-id-alt: ${SMS_TEMPLATE_ID_ALT}
-    api-url: ${SMS_API_URL}
+    user: ${SMS_USER:}
+    api-key: ${SMS_API_KEY:}
+    sender-id: ${SMS_SENDER_ID:}
+    template-id: ${SMS_TEMPLATE_ID:}
+    template-id-alt: ${SMS_TEMPLATE_ID_ALT:}
+    api-url: ${SMS_API_URL:}
 
 # App config
 app:
@@ -84,7 +84,7 @@ app:
     url: http://localhost:8080
   timezone: Asia/Kolkata
   version: 1.0.0
-  base-url: http://192.168.0.123:8080
+  base-url: http://localhost:8080
 
 # Logging
 logging:

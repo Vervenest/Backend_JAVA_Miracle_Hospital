@@ -1,0 +1,80 @@
+spring:
+  application:
+    name: miracle-hospital-management
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/miracledb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true}
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:${DB_PASSWORD:}}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+    show-sql: true
+    open-in-view: false
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+  devtools:
+    restart:
+      enabled: true
+      exclude: "static/**,public/**"
+
+server:
+  port: ${PORT:8080}
+  servlet:
+    context-path: /
+
+# Firebase Configuration
+firebase:
+  credentials-path: classpath:firebase-credentials.json
+  project-id: ${FIREBASE_PROJECT_ID:}
+
+# JWT Configuration  (fixed: was jwt.jwt.secret)
+jwt:
+  secret: ${JWT_SECRET:mySecretKeyForJwtTokenSigningPurpose1234567890ABCDEF}
+  expiration: 86400000
+
+# Twilio SMS Configuration
+twilio:
+  account-sid: ${TWILIO_ACCOUNT_SID:}
+  auth-token: ${TWILIO_AUTH_TOKEN:}
+  from-number: ${TWILIO_FROM_NUMBER:}
+
+# Logging Configuration
+logging:
+  level:
+    root: INFO
+    com.miracle: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  file:
+    name: logs/application-dev.log
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# Actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
