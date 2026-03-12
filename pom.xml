@@ -8,7 +8,7 @@
     <groupId>com.miracle</groupId>
     <artifactId>hospital-management</artifactId>
     <version>1.0.0</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>Miracle Hospital Management System</name>
     <description>Hospital management system with doctor and patient APIs</description>
@@ -120,11 +120,7 @@
             <version>2.1.214</version>
             <scope>runtime</scope>
         </dependency>
-        <dependency>
-    <groupId>me.paulschwarz</groupId>
-    <artifactId>spring-dotenv</artifactId>
-    <version>4.0.0</version>
-</dependency>
+        
     </dependencies>
 
     <build>
