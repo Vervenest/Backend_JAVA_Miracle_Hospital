@@ -60,6 +60,6 @@ public class StaticController {
 
     private String getResourceContent(String resourcePath) throws IOException {
         org.springframework.core.io.Resource resource = resourceLoader.getResource(resourcePath);
-        return new String(Files.readAllBytes(Paths.get(resource.getFile().getAbsolutePath())), StandardCharsets.UTF_8);
+        return new String(resource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
     }
 }
