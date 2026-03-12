@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -26,14 +27,11 @@ public class StaticController {
     /**
      * Serve index.html at root path
      */
-    @GetMapping("/")
-    public ResponseEntity<String> index() throws IOException {
-        String content = getResourceContent("classpath:static/index.html");
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.TEXT_HTML_VALUE + ";charset=UTF-8")
-                .body(content);
-    }
-
+   // ✅ NEW
+@GetMapping("/")
+public RedirectView root() {
+    return new RedirectView("/admin/login");
+}
     /**
      * Serve index.html directly
      */
