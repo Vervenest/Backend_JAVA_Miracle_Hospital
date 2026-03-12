@@ -8,7 +8,7 @@
     <groupId>com.miracle</groupId>
     <artifactId>hospital-management</artifactId>
     <version>1.0.0</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>Miracle Hospital Management System</name>
     <description>Hospital management system with doctor and patient APIs</description>
