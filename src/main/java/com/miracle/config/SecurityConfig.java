@@ -38,10 +38,13 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .exceptionHandling(exception -> exception
-                .authenticationEntryPoint(jwtAuthenticationEntryPoint))
+                .authenticationEntryPoint((request, response, authException) -> {
+    response.sendError(401, "Unauthorized");
+}))
             .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-
+                .formLogin(form -> form.disable())
+                .httpBasic(basic -> basic.disable())
             .authorizeHttpRequests(authz -> authz
 
                 // ── Static / Admin ────────────────────────────────────────
