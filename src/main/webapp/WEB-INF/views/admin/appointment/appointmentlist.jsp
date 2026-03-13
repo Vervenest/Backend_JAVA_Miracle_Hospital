@@ -385,5 +385,19 @@ function confirmStatusUpdate(status, appointmentId, label) {
     });
 }
 </script>
+<script>
+// Fix for missing elements referenced in app.js
+document.addEventListener('DOMContentLoaded', function() {
+    var els = ['removeNotificationModal', 'notification-actions', 'select-content', 'notificationDropdown'];
+    els.forEach(function(id) {
+        if (!document.getElementById(id)) {
+            var d = document.createElement('div');
+            d.id = id;
+            d.style.display = 'none';
+            document.body.appendChild(d);
+        }
+    });
+});
+</script>
 <%@ include file="../include/footer.jsp" %>
 </html>
