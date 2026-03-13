@@ -384,10 +384,11 @@ public class AdminService {
     public List<Map<String, Object>> getAppointmentList() {
         try {
             return jdbcTemplate.queryForList(
-                "SELECT a.appointmentId, a.todayTokenNo, a.doctorId, a.patientId, " +
-                "a.appointmentDate, a.appointmentStartTime, a.appointmentEndTime, " +
-                "a.appointmentStatus, a.scanType, a.create_datetime, " +
-                "d.doctorName, p.patientName " +
+                "SELECT a.appointmentId as appointmentId, a.todayTokenNo as todayTokenNo, " +
+                 "a.appointmentDate as appointmentDate, a.appointmentStartTime as appointmentStartTime, " +
+                 "a.appointmentEndTime as appointmentEndTime, " +
+                  "a.appointmentStatus as appointmentStatus, a.scanType as scanType, a.create_datetime as create_datetime, " +
+                  "d.doctorName as doctorName, p.patientName as patientName " +
                 "FROM appointment a " +
                 "LEFT JOIN doctor d ON a.doctor_id = d.id " +
                 "LEFT JOIN patients p ON a.patient_id = p.id " +
@@ -401,10 +402,11 @@ public class AdminService {
     public List<Map<String, Object>> getFilteredAppointmentList(String date, String doctorId, String patientName) {
         try {
             StringBuilder sql = new StringBuilder(
-                "SELECT a.appointmentId, a.todayTokenNo, a.doctorId, a.patientId, " +
-                "a.appointmentDate, a.appointmentStartTime, a.appointmentEndTime, " +
-                "a.appointmentStatus, a.scanType, a.create_datetime, " +
-                "d.doctorName, p.patientName " +
+                "SELECT a.appointmentId as appointmentId, a.todayTokenNo as todayTokenNo, " +
+                "a.appointmentDate as appointmentDate, a.appointmentStartTime as appointmentStartTime, " +
+                 "a.appointmentEndTime as appointmentEndTime, " +
+                  "a.appointmentStatus as appointmentStatus, a.scanType as scanType, a.create_datetime as create_datetime, " +
+                 "d.doctorName as doctorName, p.patientName as patientName " +
                 "FROM appointment a " +
                 "LEFT JOIN doctor d ON a.doctor_id = d.id " +
                 "LEFT JOIN patients p ON a.patient_id = p.id " +
