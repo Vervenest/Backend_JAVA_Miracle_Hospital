@@ -27,8 +27,28 @@
                 <div class="col-lg-12">
                     <div class="container-fluid">
                         <div class="card shadow p-4">
-                            <h5>Available Timeslots - Doctor <span class="text-danger">(${fn:toUpperCase(doctorName)})</span></h5>
-                            <form action="${pageContext.request.contextPath}/adminmodel/saveWeeklySlots" method="post">
+    <div class="p-3 mb-3 text-white rounded" style="background: linear-gradient(135deg, #6f42c1, #9b59b6);">
+        <h5 class="mb-1">Dr. ${fn:toUpperCase(doctorName)}</h5>
+        <small><i class="ri-map-pin-line"></i>
+            <c:choose>
+                <c:when test="${hasLocation}">${locationName}</c:when>
+                <c:otherwise>0 Location(s)</c:otherwise>
+            </c:choose>
+        </small>
+    </div>
+    <c:choose>
+        <c:when test="${not hasLocation}">
+            <div class="alert alert-warning">
+                <i class="ri-alert-line"></i> <strong>No locations assigned!</strong> Please assign locations to this doctor first.
+            </div>
+            <a href="${pageContext.request.contextPath}/admin/doctor/doctorlist" class="btn btn-outline-secondary">&#8592; Back to Doctors List</a>
+        </c:when>
+        <c:otherwise>
+            <div class="p-2 mb-3 text-white text-center rounded" style="background: linear-gradient(135deg, #6f42c1, #9b59b6);">
+                <i class="ri-map-pin-line"></i> ${locationName}
+            </div>
+            <div class="alert alert-info py-2">&#9432; Set availability for <strong>${locationName}</strong></div>
+            <form action="${pageContext.request.contextPath}/adminmodel/saveWeeklySlots" method="post">
                                 <input type="hidden" name="doctorId" value="${doctorId}">
                                 <div class="table-responsive mt-3">
                                     <table class="table table-bordered align-middle">
@@ -75,6 +95,8 @@
                                     <a href="${pageContext.request.contextPath}/admin/doctor/doctorlist" class="btn btn-secondary">Back to Doctors List</a>
                                 </div>
                             </form>
+                             </c:otherwise>
+                    </c:choose>
                         </div>
 
                         <script>
@@ -107,6 +129,7 @@
         Swal.fire({ icon: 'success', title: 'Saved!', text: 'Time slots updated successfully.', timer: 2000, showConfirmButton: false });
         history.replaceState({}, '', window.location.pathname);
     }
+    
 </script>
 
 <%@ include file="../include/footer.jsp" %>

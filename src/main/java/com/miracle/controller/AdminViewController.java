@@ -177,9 +177,19 @@ public class AdminViewController {
     public String doctorTimeSlots(@PathVariable String doctorId, HttpSession session, Model model) {
         if (!isLoggedIn(session)) return "redirect:/admin/login";
         adminService.getDoctorById(doctorId).ifPresent(d -> {
-            model.addAttribute("doctorId", doctorId);
-            model.addAttribute("doctorName", d.getDoctorName());
-        });
+    model.addAttribute("doctorId", doctorId);
+    model.addAttribute("doctorName", d.getDoctorName());
+    String locId = d.getLocationId();
+    if (locId != null && !locId.isBlank()) {
+        adminService.getActiveLocations().stream()
+            .filter(l -> l.getLocationId().equals(locId))
+            .findFirst()
+            .ifPresent(l -> model.addAttribute("locationName", l.getLocationName()));
+        model.addAttribute("hasLocation", true);
+    } else {
+        model.addAttribute("hasLocation", false);
+    }
+});
         // Get slots as a Map<dayName, slot> so JSP can do ${slots[day]}
         List<com.miracle.model.DoctorAvailableSlotTime> slotList = adminService.getDoctorSlots(doctorId);
         Map<String, com.miracle.model.DoctorAvailableSlotTime> slotsMap = new java.util.LinkedHashMap<>();

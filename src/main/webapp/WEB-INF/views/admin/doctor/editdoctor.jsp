@@ -82,8 +82,8 @@
 
                                     <!-- LOCATION DROPDOWN -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Location : <span class="text-danger">*</span></label>
-                                        <select class="form-control" name="locationId" required>
+                                        <label class="form-label">Location : </label>
+                                        <select class="form-control" name="locationId" >
                                             <option value="">Select Location</option>
                                             <c:forEach var="loc" items="${locationList}">
                                                 <option value="${loc.locationId}"
