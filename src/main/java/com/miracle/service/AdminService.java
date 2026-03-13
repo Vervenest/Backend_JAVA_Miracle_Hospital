@@ -415,7 +415,7 @@ public class AdminService {
                 params.add(date);
             }
             if (doctorId != null && !doctorId.isBlank()) {
-                sql.append(" AND a.doctor_id = ?");
+                sql.append(" AND d.doctorId = ?");
                 params.add(doctorId);
             }
             if (patientName != null && !patientName.isBlank()) {
