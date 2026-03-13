@@ -14,6 +14,7 @@ import org.springframework.data.repository.query.Param;
 
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
+    @Query("SELECT a FROM Appointment a LEFT JOIN FETCH a.doctor LEFT JOIN FETCH a.patient WHERE a.appointmentStringId = :id")
     Optional<Appointment> findByAppointmentStringId(@Param("id") String id);
     List<Appointment> findByPatientPatientId(Long patientId);
     List<Appointment> findByDoctorDoctorId(Long doctorId);
