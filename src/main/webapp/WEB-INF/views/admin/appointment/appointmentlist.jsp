@@ -163,7 +163,7 @@
                                                                 <c:forEach var="appt" items="${appointmentList}" varStatus="status">
                                                                 <tr>
                                                                     <td>${status.count}</td>
-                                                                    <td>${appt.appointmentId}</td>
+                                                                    <td>${appt.apptId}</td>
                                                                     <td><span class="badge bg-secondary">${appt.todayTokenNo}</span></td>
                                                                     <td data-doctor-id="${appt.doctorId}">${appt.doctorName}</td>
                                                                     <td>${appt.patientName}</td>
@@ -196,22 +196,22 @@
                                                                             </a>
                                                                             <ul class="dropdown-menu">
                                                                                 <li><a class="dropdown-item"
-                                                                                        href="#" onclick="confirmStatusUpdate('1', '${appt.appointmentId}', 'Open')">Open</a>
+                                                                                        href="#" onclick="confirmStatusUpdate('1', '${appt.apptId}', 'Open')">Open</a>
                                                                                 </li>
                                                                                 <li><a class="dropdown-item"
-                                                                                        href="#" onclick="confirmStatusUpdate('2', '${appt.appointmentId}', 'Completed')">Completed</a>
+                                                                                        href="#" onclick="confirmStatusUpdate('2', '${appt.apptId}', 'Completed')">Completed</a>
                                                                                 </li>
                                                                                 <li><a class="dropdown-item"
-                                                                                        href="#" onclick="confirmStatusUpdate('3', '${appt.appointmentId}', 'Cancelled')">Cancelled</a>
+                                                                                        href="#" onclick="confirmStatusUpdate('3', '${appt.apptId}', 'Cancelled')">Cancelled</a>
                                                                                 </li>
                                                                                 <li><a class="dropdown-item rescheduleBtn"
                                                                                         href="#"
-                                                                                        data-id="${appt.appointmentId}"
+                                                                                        data-id="${appt.apptId}"
                                                                                         data-doctor="${appt.doctorId}"
                                                                                         data-date="${appt.appointmentDate}">Reschedule</a>
                                                                                 </li>
                                                                                 <li><a class="dropdown-item"
-                                                                                        href="${pageContext.request.contextPath}/admin/appointment/details/${appt.appointmentId}">View Details</a>
+                                                                                        href="${pageContext.request.contextPath}/admin/appointment/details/${appt.apptId}">View Details</a>
                                                                                 </li>
                                                                             </ul>
                                                                         </div>

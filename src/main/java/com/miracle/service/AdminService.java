@@ -384,7 +384,7 @@ public class AdminService {
     public List<Map<String, Object>> getAppointmentList() {
         try {
             return jdbcTemplate.queryForList(
-                "SELECT a.appointmentId as appointmentId, a.todayTokenNo as todayTokenNo, " +
+                "SELECT a.appointmentId as apptId, a.todayTokenNo as todayTokenNo, " +
                  "a.appointmentDate as appointmentDate, a.appointmentStartTime as appointmentStartTime, " +
                  "a.appointmentEndTime as appointmentEndTime, " +
                   "a.appointmentStatus as appointmentStatus, a.scanType as scanType, a.create_datetime as create_datetime, " +
@@ -402,7 +402,7 @@ public class AdminService {
     public List<Map<String, Object>> getFilteredAppointmentList(String date, String doctorId, String patientName) {
         try {
             StringBuilder sql = new StringBuilder(
-                "SELECT a.appointmentId as appointmentId, a.todayTokenNo as todayTokenNo, " +
+                "SELECT a.appointmentId as apptId, a.todayTokenNo as todayTokenNo, " +
                 "a.appointmentDate as appointmentDate, a.appointmentStartTime as appointmentStartTime, " +
                  "a.appointmentEndTime as appointmentEndTime, " +
                   "a.appointmentStatus as appointmentStatus, a.scanType as scanType, a.create_datetime as create_datetime, " +
