@@ -686,6 +686,30 @@ public class AdminService {
             locationRepository.save(l);
         });
     }
+    public Map<String, Object> sendTestPushNotification(String fcmToken, String title, String body) {
+    Map<String, Object> response = new HashMap<>();
+    try {
+        com.google.firebase.messaging.FirebaseMessaging fm = 
+            com.google.firebase.messaging.FirebaseMessaging.getInstance();
+        com.google.firebase.messaging.Message message = 
+            com.google.firebase.messaging.Message.builder()
+                .setToken(fcmToken)
+                .setNotification(com.google.firebase.messaging.Notification.builder()
+                    .setTitle(title)
+                    .setBody(body)
+                    .build())
+                .build();
+        String result = fm.send(message);
+        response.put("status", "success");
+        response.put("message", "Notification sent successfully");
+        response.put("messageId", result);
+    } catch (Exception e) {
+        log.error("Test notification error: {}", e.getMessage(), e);
+        response.put("status", "failed");
+        response.put("message", e.getMessage());
+    }
+    return response;
+}
 
     // ── UTIL ─────────────────────────────────────────────────────────────────
     private String generateHexId() {

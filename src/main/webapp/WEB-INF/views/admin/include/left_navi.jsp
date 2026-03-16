@@ -260,6 +260,12 @@ body.sidebar-icon-only .app-menu #navbar-nav .nav-item:hover .nav-tooltip { disp
                     </li>
 
                     <li class="nav-divider"></li>
+                    <li class="nav-item">
+    <a href="${pageContext.request.contextPath}/admin/testNotifications" class="nav-link">
+        <i class="ri-notification-3-line"></i>
+        <span>Test Notifications</span>
+    </a>
+</li>
 
                     <!-- App Config -->
                     <li class="nav-item">

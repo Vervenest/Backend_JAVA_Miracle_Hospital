@@ -239,7 +239,8 @@ public class PatientService {
 
     // ── GET PROFILE ──────────────────────────────────────────────────────────
     // FIX: fallback to userId when patientId is empty
-    public Map<String, Object> getProfile(String patientId, String userId) {
+    @Transactional(readOnly = true)
+public Map<String, Object> getProfile(String patientId, String userId) {
         Map<String, Object> response = new HashMap<>();
 
         Optional<Patient> patientOpt = (patientId != null && !patientId.isEmpty())

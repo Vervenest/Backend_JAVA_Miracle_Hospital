@@ -966,7 +966,25 @@ public String deleteAppConfigVersion(@RequestParam Long detailId, HttpSession se
     if (!isLoggedIn(session)) return "{\"status\":\"FAIL\",\"message\":\"Not logged in\"}";
     return toJson(adminService.deleteAppConfigVersion(detailId));
 }
+@GetMapping("/admin/testNotifications")
+public String testNotifications(HttpSession session, Model model) {
+    if (!isLoggedIn(session)) return "redirect:/admin/login";
+    model.addAttribute("user_name", session.getAttribute("adminName"));
+    model.addAttribute("usertype", "Admin");
+    return "admin/testNotification";
+}
 
+@PostMapping(value = "/adminmodel/testNotification", produces = MediaType.APPLICATION_JSON_VALUE)
+@ResponseBody
+public Map<String, Object> sendTestNotification(
+        @RequestParam String fcmToken,
+        @RequestParam String title,
+        @RequestParam String body,
+        @RequestParam(required = false, defaultValue = "patient") String sendAs,
+        HttpSession session) {
+    if (!isLoggedIn(session)) return Map.of("status", "failed", "message", "Not logged in");
+    return adminService.sendTestPushNotification(fcmToken, title, body);
+}
 
 
 
