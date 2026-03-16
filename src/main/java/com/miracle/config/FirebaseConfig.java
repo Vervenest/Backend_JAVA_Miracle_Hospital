@@ -39,7 +39,7 @@ public class FirebaseConfig {
             if (firebaseCredentialsJson != null && !firebaseCredentialsJson.isEmpty()) {
                 log.info("Loading Firebase credentials from environment variable");
                 credentialsStream = new ByteArrayInputStream(
-                    firebaseCredentialsJson.getBytes(StandardCharsets.UTF_8));
+                    firebaseCredentialsJson.replace("\\n", "\n").getBytes(StandardCharsets.UTF_8));
             } else {
                 // Fall back to file (local)
                 ClassPathResource resource = new ClassPathResource("firebase-credentials.json");
