@@ -36,11 +36,17 @@ public class FirebaseConfig {
             InputStream credentialsStream = null;
 
             // Try environment variable first (Railway)
-            if (firebaseCredentialsJson != null && !firebaseCredentialsJson.isEmpty()) {
-                log.info("Loading Firebase credentials from environment variable");
-                credentialsStream = new ByteArrayInputStream(
-                    firebaseCredentialsJson.replace("\\n", "\n").getBytes(StandardCharsets.UTF_8));
-            } else {
+            // Try base64 env variable first (Railway)
+String credB64 = System.getenv("FIREBASE_CREDENTIALS_B64");
+if (credB64 != null && !credB64.isEmpty()) {
+    log.info("Loading Firebase credentials from base64 env variable");
+    byte[] decoded = java.util.Base64.getDecoder().decode(credB64.trim());
+    credentialsStream = new ByteArrayInputStream(decoded);
+} else if (firebaseCredentialsJson != null && !firebaseCredentialsJson.isEmpty()) {
+    log.info("Loading Firebase credentials from JSON env variable");
+    credentialsStream = new ByteArrayInputStream(
+        firebaseCredentialsJson.replace("\\n", "\n").getBytes(StandardCharsets.UTF_8));
+} else {
                 // Fall back to file (local)
                 ClassPathResource resource = new ClassPathResource("firebase-credentials.json");
                 if (resource.exists()) {

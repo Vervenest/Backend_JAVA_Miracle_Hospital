@@ -43,6 +43,8 @@ server:
 firebase:
   credentials-path: classpath:firebase-credentials.json
   project-id: ${FIREBASE_PROJECT_ID:}
+  credentials-b64: ${FIREBASE_CREDENTIALS_B64:}
+  credentials-json: ${FIREBASE_CREDENTIALS_JSON:}
   doctor:
     api-key: ${FIREBASE_DOCTOR_API_KEY:}
   patient:
