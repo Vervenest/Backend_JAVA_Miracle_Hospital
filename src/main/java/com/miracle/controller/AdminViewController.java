@@ -1020,9 +1020,11 @@ public String keyMetricsReports(
     model.addAttribute("fromDate",     fromDate);
     model.addAttribute("toDate",       toDate);
     model.addAttribute("reportData",   keyMetricsService.getReportData(fromDate, toDate));
+    model.addAttribute("groupedData",  keyMetricsService.getGroupedReportData(fromDate, toDate));
     model.addAttribute("totalEntries", summary.get("totalEntries"));
     model.addAttribute("daysCovered",  summary.get("daysCovered"));
     model.addAttribute("latestEntry",  summary.get("latestEntry"));
+    model.addAttribute("today", java.time.LocalDate.now().toString());
     model.addAttribute("user_name", session.getAttribute("adminName"));
     model.addAttribute("usertype", "Admin");
     return "admin/keymetrics/reports";

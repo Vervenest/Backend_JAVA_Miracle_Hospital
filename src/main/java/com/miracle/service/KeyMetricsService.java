@@ -168,4 +168,40 @@ public class KeyMetricsService {
         }
         return csv.toString();
     }
+    public Map<String, Map<String, Object>> getGroupedReportData(String fromDate, String toDate) {
+    List<Map<String, Object>> flat = getReportData(fromDate, toDate);
+    Map<String, Map<String, Object>> grouped = new LinkedHashMap<>();
+    for (Map<String, Object> row : flat) {
+        String date = row.get("entryDate").toString();
+        String catName = row.get("categoryName").toString();
+        String displayDate = formatDisplayDate(date);
+        grouped.computeIfAbsent(displayDate, k -> {
+            Map<String, Object> dayMap = new LinkedHashMap<>();
+            dayMap.put("editDate", date);
+            dayMap.put("totalCount", 0);
+            dayMap.put("byCategory", new LinkedHashMap<String, List<Map<String, Object>>>());
+            return dayMap;
+        });
+        Map<String, Object> dayMap = grouped.get(displayDate);
+        dayMap.put("totalCount", (int) dayMap.get("totalCount") + 1);
+        @SuppressWarnings("unchecked")
+        Map<String, List<Map<String, Object>>> byCategory =
+            (Map<String, List<Map<String, Object>>>) dayMap.get("byCategory");
+        byCategory.computeIfAbsent(catName, k -> new ArrayList<>()).add(row);
+    }
+    return grouped;
+}
+
+private String formatDisplayDate(String dateStr) {
+    try {
+        java.time.LocalDate date = java.time.LocalDate.parse(dateStr);
+        String day = String.format("%02d", date.getDayOfMonth());
+        String month = date.getMonth().getDisplayName(java.time.format.TextStyle.SHORT, java.util.Locale.ENGLISH);
+        String year = String.valueOf(date.getYear());
+        String dayOfWeek = date.getDayOfWeek().getDisplayName(java.time.format.TextStyle.FULL, java.util.Locale.ENGLISH);
+        return day + " " + month + " " + year + " (" + dayOfWeek + ")";
+    } catch (Exception e) {
+        return dateStr;
+    }
+}
 }

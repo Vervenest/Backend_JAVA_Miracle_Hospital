@@ -27,7 +27,7 @@
                     </div>
                     <div class="col-md-3">
                         <label class="form-label">To Date</label>
-                        <input type="date" id="toDate" class="form-control" value="${toDate}">
+                        <input type="date" id="toDate" class="form-control" value="${toDate}" max="${today}">
                     </div>
                     <div class="col-md-6 d-flex gap-2">
                         <button id="filterBtn" class="btn btn-primary mt-4">
@@ -71,6 +71,59 @@
                     </div>
                 </div>
             </div>
+            <c:if test="${not empty groupedData}">
+    <c:forEach var="dayEntry" items="${groupedData}">
+        <div class="card mb-3">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h6 class="mb-0 fw-bold">
+                    <i class="ri-calendar-line me-2"></i>
+                    ${dayEntry.key}
+                    <span class="badge bg-primary ms-2">${dayEntry.value.totalCount} entries</span>
+                </h6>
+                <a href="${pageContext.request.contextPath}/admin/keymetrics/entry?date=${dayEntry.value.editDate}"
+                   class="btn btn-sm btn-outline-secondary">
+                    <i class="ri-edit-line me-1"></i> Edit
+                </a>
+            </div>
+            <div class="card-body p-0">
+                <c:forEach var="catEntry" items="${dayEntry.value.byCategory}">
+                    <div class="border-bottom">
+                        <div class="d-flex align-items-center justify-content-between px-3 py-2 bg-light"
+                             data-bs-toggle="collapse"
+                             data-bs-target="#cat-${dayEntry.value.editDate}-${catEntry.key}"
+                             style="cursor:pointer;">
+                            <span class="fw-semibold">
+                                ${catEntry.key}
+                                <span class="badge bg-secondary ms-1">${catEntry.value.size()}</span>
+                            </span>
+                            <i class="ri-arrow-up-s-line"></i>
+                        </div>
+                        <div class="collapse show" id="cat-${dayEntry.value.editDate}-${catEntry.key}">
+                            <table class="table table-sm table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th style="width:50%">Metric</th>
+                                        <th style="width:30%">Value</th>
+                                        <th style="width:20%">Entered By</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach var="row" items="${catEntry.value}">
+                                        <tr>
+                                            <td>${row.itemName}</td>
+                                            <td>${not empty row.valueNumeric ? row.valueNumeric : row.valueText}</td>
+                                            <td>${row.enteredBy}</td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </c:forEach>
+            </div>
+        </div>
+    </c:forEach>
+</c:if>
 
            <!-- Data Table -->
 <div class="card p-3">
