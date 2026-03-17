@@ -93,7 +93,7 @@ public class PatientService {
                     .phoneNumber(mobileNo)
                     .userPhone(mobileNo)
                     .email("")
-                    .otp(generateOTP(true) + "##SEND##" + mobileNo)
+                    .otp(generateOTP(true))
                     .password("")
                     .userRole(User.UserRole.PATIENT)
                     .isActive(true)
