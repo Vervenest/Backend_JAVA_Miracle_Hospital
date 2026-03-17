@@ -15,6 +15,8 @@ import com.miracle.repository.UserRepository;
 import com.miracle.repository.AppointmentRepository;
 import com.miracle.repository.DoctorRepository;
 import com.miracle.service.AdminService;
+import com.miracle.service.KeyMetricsService;
+
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +44,7 @@ public class AdminViewController {
     private final PatientDocumentRepository patientDocumentRepository;
     private final JdbcTemplate jdbcTemplate;
     private final LocationRepository locationRepository;
+    private final KeyMetricsService keyMetricsService;
 
     @Value("${app.upload.dir:}")
     private String uploadDir;
@@ -984,6 +987,70 @@ public Map<String, Object> sendTestNotification(
         HttpSession session) {
     if (!isLoggedIn(session)) return Map.of("status", "failed", "message", "Not logged in");
     return adminService.sendTestPushNotification(fcmToken, title, body);
+}
+// ═══════════════════════════════════════════════════════════════════════════
+// KEY METRICS SECTION
+// ═══════════════════════════════════════════════════════════════════════════
+
+@GetMapping("/admin/keymetrics/entry")
+public String keyMetricsDailyEntry(
+        @RequestParam(required = false) String date,
+        HttpSession session, Model model) {
+    if (!isLoggedIn(session)) return "redirect:/admin/login";
+    String today = date != null ? date : java.time.LocalDate.now().toString();
+    model.addAttribute("today", today);
+    model.addAttribute("operationalCategories", keyMetricsService.getCategoriesWithItems("operational", today));
+    model.addAttribute("marketingCategories",   keyMetricsService.getCategoriesWithItems("marketing", today));
+    model.addAttribute("financeCategories",     keyMetricsService.getCategoriesWithItems("finance", today));
+    model.addAttribute("statutoryCompliances",  keyMetricsService.getStatutoryCompliances());
+    model.addAttribute("user_name", session.getAttribute("adminName"));
+    model.addAttribute("usertype", "Admin");
+    return "admin/keymetrics/dailyentry";
+}
+
+@GetMapping("/admin/keymetrics/reports")
+public String keyMetricsReports(
+        @RequestParam(required = false) String fromDate,
+        @RequestParam(required = false) String toDate,
+        HttpSession session, Model model) {
+    if (!isLoggedIn(session)) return "redirect:/admin/login";
+    if (fromDate == null) fromDate = java.time.LocalDate.now().minusMonths(1).toString();
+    if (toDate == null)   toDate   = java.time.LocalDate.now().toString();
+    Map<String, Object> summary = keyMetricsService.getReportSummary(fromDate, toDate);
+    model.addAttribute("fromDate",     fromDate);
+    model.addAttribute("toDate",       toDate);
+    model.addAttribute("reportData",   keyMetricsService.getReportData(fromDate, toDate));
+    model.addAttribute("totalEntries", summary.get("totalEntries"));
+    model.addAttribute("daysCovered",  summary.get("daysCovered"));
+    model.addAttribute("latestEntry",  summary.get("latestEntry"));
+    model.addAttribute("user_name", session.getAttribute("adminName"));
+    model.addAttribute("usertype", "Admin");
+    return "admin/keymetrics/reports";
+}
+
+@PostMapping(value = "/adminmodel/saveMetrics", produces = MediaType.APPLICATION_JSON_VALUE)
+@ResponseBody
+public Map<String, Object> saveMetrics(
+        @RequestBody Map<String, Object> payload,
+        HttpSession session) {
+    if (!isLoggedIn(session)) return Map.of("status", "failed", "message", "Not logged in");
+    String entryDate = payload.get("entryDate").toString();
+    String enteredBy = session.getAttribute("adminName") != null ? session.getAttribute("adminName").toString() : "Admin";
+    List<Map<String, Object>> entries = (List<Map<String, Object>>) payload.get("entries");
+    return keyMetricsService.saveMetrics(entryDate, entries, enteredBy);
+}
+
+@GetMapping("/adminmodel/downloadMetricsCsv")
+public void downloadMetricsCsv(
+        @RequestParam String fromDate,
+        @RequestParam String toDate,
+        HttpSession session,
+        jakarta.servlet.http.HttpServletResponse response) throws Exception {
+    if (!isLoggedIn(session)) { response.sendRedirect("/admin/login"); return; }
+    String csv = keyMetricsService.generateCsv(fromDate, toDate);
+    response.setContentType("text/csv");
+    response.setHeader("Content-Disposition", "attachment; filename=\"metrics_" + fromDate + "_" + toDate + ".csv\"");
+    response.getWriter().write(csv);
 }
 
 

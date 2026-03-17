@@ -290,7 +290,15 @@ public ResponseEntity<Map<String, Object>> getPregnancyEvents(
         @RequestParam(required = false, defaultValue = "") String patientId) {
     log.info("Getting pregnancy events for patientId: {}", patientId);
     return ResponseEntity.ok(patientService.getPregnancyEvents(patientId));
+
 }
+// ── GET VACCINATION SCHEDULE ──────────────────────────────────────────────
+    @PostMapping("/getVaccinationSchedule")
+    public ResponseEntity<Map<String, Object>> getVaccinationSchedule(
+            @RequestParam String patientId,
+            @RequestParam(required = false, defaultValue = "") String userId) {
+        return ResponseEntity.ok(patientService.getVaccinationSchedule(patientId));
+    }
 @PostMapping("/getPatientsListWithDocuments")
 public ResponseEntity<Map<String, Object>> getPatientsListWithDocuments(@RequestParam String userId) {
     return ResponseEntity.ok(patientService.getPatientsListWithDocuments(userId));

@@ -37,6 +37,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import com.miracle.util.IdGenerator;
 import com.miracle.model.PatientDoctorChat;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 @Service
 @Slf4j
@@ -56,6 +57,7 @@ public class PatientService {
     private final NotificationService notificationService;
     private final LocationRepository locationRepository;
     private final PatientDocumentRepository patientDocumentRepository;
+    private final JdbcTemplate jdbcTemplate;
    
 
     @Value("${app.base-url:http://localhost:8080}")
@@ -1306,6 +1308,75 @@ if (!patientOpt.isPresent()) {
     private String generateOTP(boolean developmentMode) {
         if (developmentMode) return "1234";
         return String.format("%04d", new Random().nextInt(10000));
+    }
+    // ── GET VACCINATION SCHEDULE ──────────────────────────────────────────────
+    public Map<String, Object> getVaccinationSchedule(String patientId) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            // Get patient date of birth
+            Optional<Patient> patientOpt = patientRepository.findByPatientStringId(patientId);
+            if (patientOpt.isEmpty()) {
+                response.put("status", "failed");
+                response.put("message", "Patient not found");
+                return response;
+            }
+
+            Patient patient = patientOpt.get();
+            String dob = patient.getPatientDateOfBirth();
+
+            if (dob == null || dob.isEmpty()) {
+                response.put("status", "failed");
+                response.put("message", "Patient date of birth not found");
+                return response;
+            }
+
+            // Calculate patient age in months
+            java.time.LocalDate birthDate = java.time.LocalDate.parse(dob);
+            java.time.LocalDate today = java.time.LocalDate.now();
+            long ageInMonths = java.time.temporal.ChronoUnit.MONTHS.between(birthDate, today);
+
+            // Get vaccination schedule from DB
+            List<Map<String, Object>> schedules = jdbcTemplate.queryForList(
+                "SELECT vaccine_name, due_in_days FROM vaccination_schedule ORDER BY due_in_days");
+
+            List<Map<String, Object>> vaccineList = new ArrayList<>();
+            for (Map<String, Object> schedule : schedules) {
+                String vaccineName = (String) schedule.get("vaccine_name");
+                int dueInDays = ((Number) schedule.get("due_in_days")).intValue();
+                int dueInMonths = dueInDays / 30;
+
+                // Calculate due date
+                java.time.LocalDate dueDate = birthDate.plusDays(dueInDays);
+                String status = today.isAfter(dueDate) ? "PAST" : "UPCOMING";
+
+                // Check if already given
+                List<Map<String, Object>> history = jdbcTemplate.queryForList(
+                    "SELECT given_date FROM vaccination_history WHERE patientId = ? AND vaccine_name = ?",
+                    patientId, vaccineName);
+
+                if (!history.isEmpty()) status = "GIVEN";
+
+                Map<String, Object> vaccine = new HashMap<>();
+                vaccine.put("vaccine", vaccineName);
+                vaccine.put("dueMonths", dueInMonths);
+                vaccine.put("dueDate", dueDate.toString());
+                vaccine.put("status", status);
+                vaccine.put("patientAgeInMonths", (int) ageInMonths);
+                vaccineList.add(vaccine);
+            }
+
+            Map<String, Object> result = new HashMap<>();
+            result.put("list", vaccineList);
+
+            response.put("status", "success");
+            response.put("message", "Vaccination schedule retrieved");
+            response.put("result", result);
+        } catch (Exception e) {
+            log.error("getVaccinationSchedule error: {}", e.getMessage(), e);
+            response.put("status", "failed");
+            response.put("message", e.getMessage());
+        }
+        return response;
     }
 
 // ── GET PREGNANCY EVENTS ──────────────────────────────────────────────────

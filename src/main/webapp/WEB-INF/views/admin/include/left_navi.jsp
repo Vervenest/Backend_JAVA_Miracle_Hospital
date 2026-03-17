@@ -8,7 +8,13 @@
     margin: 3px 16px;
     pointer-events: none;
 }
-
+#navbar-nav .nav-link.active,
+#navbar-nav .nav-link:active,
+#navbar-nav .nav-link.menu-link.active {
+    color: #ffffff !important;
+    background-color: rgba(255,255,255,0.15) !important;
+    border-radius: 6px;
+}
 /* ── Icon-only collapsed state ── */
 body.sidebar-icon-only .app-menu.navbar-menu {
     width: 60px !important;
@@ -193,7 +199,7 @@ body.sidebar-icon-only .app-menu #navbar-nav .nav-item:hover .nav-tooltip { disp
                         <span class="nav-tooltip">Dashboard</span>
                     </li>
 
-                    <li class="nav-divider"></li>
+                
 
                     <!-- Appointments -->
                     <li class="nav-item">
@@ -204,7 +210,7 @@ body.sidebar-icon-only .app-menu #navbar-nav .nav-item:hover .nav-tooltip { disp
                         <span class="nav-tooltip">Manage Appointments</span>
                     </li>
 
-                    <li class="nav-divider"></li>
+                  
 
                     <!-- Doctors -->
                     <li class="nav-item">
@@ -215,7 +221,7 @@ body.sidebar-icon-only .app-menu #navbar-nav .nav-item:hover .nav-tooltip { disp
                         <span class="nav-tooltip">Manage Doctors</span>
                     </li>
 
-                    <li class="nav-divider"></li>
+                  
 
                     <!-- Patients -->
                     <li class="nav-item">
@@ -226,7 +232,7 @@ body.sidebar-icon-only .app-menu #navbar-nav .nav-item:hover .nav-tooltip { disp
                         <span class="nav-tooltip">Manage Patients</span>
                     </li>
 
-                    <li class="nav-divider"></li>
+                    
 
                     <!-- Specialisations -->
                     <li class="nav-item">
@@ -237,7 +243,7 @@ body.sidebar-icon-only .app-menu #navbar-nav .nav-item:hover .nav-tooltip { disp
                         <span class="nav-tooltip">Manage Specialisations</span>
                     </li>
 
-                    <li class="nav-divider"></li>
+                    
 
                     <!-- Locations -->
                     <li class="nav-item">
@@ -248,7 +254,7 @@ body.sidebar-icon-only .app-menu #navbar-nav .nav-item:hover .nav-tooltip { disp
                         <span class="nav-tooltip">Manage Locations</span>
                     </li>
 
-                    <li class="nav-divider"></li>
+                  
 
                     <!-- Whatsapp Logs -->
                     <li class="nav-item">
@@ -258,15 +264,6 @@ body.sidebar-icon-only .app-menu #navbar-nav .nav-item:hover .nav-tooltip { disp
                         </a>
                         <span class="nav-tooltip">Whatsapp Logs</span>
                     </li>
-
-                    <li class="nav-divider"></li>
-                    <li class="nav-item">
-    <a href="${pageContext.request.contextPath}/admin/testNotifications" class="nav-link">
-        <i class="ri-notification-3-line"></i>
-        <span>Test Notifications</span>
-    </a>
-</li>
-
                     <!-- App Config -->
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="${pageContext.request.contextPath}/admin/appconfig">
@@ -275,6 +272,29 @@ body.sidebar-icon-only .app-menu #navbar-nav .nav-item:hover .nav-tooltip { disp
                         </a>
                         <span class="nav-tooltip">App Config</span>
                     </li>
+
+                    <li class="nav-item">
+                  <span class="nav-header text-uppercase small px-3 mt-2">KEY METRICS</span>
+                   </li>
+                   <li class="nav-item">
+                       <a href="${pageContext.request.contextPath}/admin/keymetrics/entry" class="nav-link">
+                       <i class="ri-edit-line"></i> <span>Daily Entry</span>
+                        </a>
+                    </li>
+                  <li class="nav-item">
+                      <a href="${pageContext.request.contextPath}/admin/keymetrics/reports" class="nav-link">
+                      <i class="ri-bar-chart-2-line"></i> <span>Metrics Reports</span>
+                       </a>
+                  </li>
+                
+                    <li class="nav-item">
+                    <a href="${pageContext.request.contextPath}/admin/testNotifications" class="nav-link">
+                    <i class="ri-notification-3-line"></i>
+                 <span>Test Notifications</span>
+                </a>
+              </li>
+
+                    
 
                 </ul>
             </div>
@@ -310,5 +330,14 @@ function closeSidebarMobile() {
     } else {
         if (icon) icon.className = 'ri-menu-line';
     }
+})();
+// Set active nav item based on current URL
+(function() {
+    var currentPath = window.location.pathname;
+    document.querySelectorAll('#navbar-nav .nav-link').forEach(function(link) {
+        if (link.getAttribute('href') && currentPath.includes(link.getAttribute('href'))) {
+            link.classList.add('active');
+        }
+    });
 })();
 </script>

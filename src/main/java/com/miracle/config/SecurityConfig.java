@@ -76,6 +76,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/patients/deleteAccountPermanently").permitAll()
                 .requestMatchers("/api/patients/getPatientDetailsbyId").permitAll()
                 .requestMatchers("/api/patients/getPregnancyEvents").permitAll()
+                .requestMatchers("/api/patients/getVaccinationSchedule").permitAll()
+                .requestMatchers("/api/patients/getPatientsListWithDocuments").permitAll()
 
                 // ── Doctor (Patient-facing) ───────────────────────────────
                 .requestMatchers("/api/patients/getDoctorList").permitAll()
@@ -131,7 +133,7 @@ public class SecurityConfig {
               .requestMatchers("/api/doctors/deleteReport").permitAll()
               
 
-             .requestMatchers("/api/patients/getPatientsListWithDocuments").permitAll()
+             
 
                 // ── Doctor Queue ──────────────────────────────────────────
                 .requestMatchers("/api/doctors/getDoctorQueueOverview").permitAll()
