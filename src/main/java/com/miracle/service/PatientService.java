@@ -433,6 +433,7 @@ public Map<String, Object> getPatientsListWithDocuments(String userId) {
 }
 
     // ── APPOINTMENT HISTORY ───────────────────────────────────────────────────
+    @Transactional(readOnly = true)
     public Map<String, Object> getAppointmentHistory(String userId) {
         Map<String, Object> response = new HashMap<>();
         try {
@@ -447,7 +448,7 @@ public Map<String, Object> getPatientsListWithDocuments(String userId) {
             List<Map<String, Object>> appointments = new ArrayList<>();
 
             for (Patient patient : patients) {
-                List<Appointment> apptList = appointmentRepository.findByPatient(patient);
+                List<Appointment> apptList = appointmentRepository.findByPatientWithDoctor(patient);
                 for (Appointment a : apptList) {
                     String doctorName = "";
                     String doctorSpecialisation = "";
@@ -490,6 +491,19 @@ public Map<String, Object> getPatientsListWithDocuments(String userId) {
                     appt.put("doctorName",           doctorName);
                     appt.put("doctorSpecialisation", doctorSpecialisation);
                     appt.put("doctorProfileImage",   doctorProfileImage);
+                    List<PatientDocument> docList = patientDocumentRepository
+    .findByPatientIdAndAppointmentId(patient.getPatientStringId(), a.getAppointmentStringId());
+List<Map<String, Object>> documents = new ArrayList<>();
+for (PatientDocument doc : docList) {
+    Map<String, Object> docMap = new LinkedHashMap<>();
+    docMap.put("id",          doc.getId() != null ? doc.getId().toString() : "");
+    docMap.put("docType",     doc.getDocType() != null ? doc.getDocType() : "");
+    docMap.put("fileName",    doc.getFileName() != null ? doc.getFileName() : "");
+    docMap.put("uploaded_at", doc.getUploadedAt() != null ? doc.getUploadedAt().toString() : "");
+    docMap.put("url",         baseUrl + "/assets/patientDocuments/" + doc.getFileName());
+    documents.add(docMap);
+}
+appt.put("documents", documents);
                     appointments.add(appt);
                 }
             }
@@ -510,6 +524,7 @@ public Map<String, Object> getPatientsListWithDocuments(String userId) {
     }
 
     // ── NOTIFICATION LIST ─────────────────────────────────────────────────────
+    @Transactional(readOnly = true)
     public Map<String, Object> getNotificationList(String userId) {
         Map<String, Object> response = new HashMap<>();
         try {
@@ -519,7 +534,7 @@ public Map<String, Object> getPatientsListWithDocuments(String userId) {
             if (userOpt.isPresent()) {
                 List<Patient> patients = patientRepository.findByUserAndIsActiveTrue(userOpt.get());
                 for (Patient patient : patients) {
-                    List<Appointment> appts = appointmentRepository.findByPatient(patient);
+                    List<Appointment> appts = appointmentRepository.findByPatientWithDoctor(patient);
                     for (Appointment a : appts) {
                         Map<String, Object> item = new LinkedHashMap<>();
                         item.put("notification_id",      a.getAppointmentStringId());

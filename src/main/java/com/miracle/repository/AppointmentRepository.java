@@ -26,6 +26,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     List<Appointment> findByDoctorDoctorStringIdAndAppointmentDateAndAppointmentStartTimeLessThanAndAppointmentEndTimeGreaterThan(
     String doctorId, String appointmentDate, String endTime, String startTime);
     List<Appointment> findByPatient(Patient patient);
+    @Query("SELECT a FROM Appointment a LEFT JOIN FETCH a.doctor WHERE a.patient = :patient")
+   List<Appointment> findByPatientWithDoctor(@Param("patient") Patient patient);
 
 long countByAppointmentDateAndDoctorDoctorStringId(String date, String doctorId);
 @Query("SELECT a FROM Appointment a WHERE a.doctor.doctorStringId = :doctorId AND a.appointmentDate = :date AND a.appointmentStatus <> '0' ORDER BY a.appointmentStartTime ASC")
